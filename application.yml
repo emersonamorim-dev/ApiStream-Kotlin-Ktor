@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: Api-Stream
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: Api-Stream
+  template:
+    metadata:
+      labels:
+        app: Api-Stream
+    spec:
+      containers:
+      - name: Api-Stream
+        image: Api-Stream:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: Api-Stream
+spec:
+  type: LoadBalancer
+  selector:
+    app: Api-Stream
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
